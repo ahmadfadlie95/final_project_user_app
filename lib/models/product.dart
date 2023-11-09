@@ -6,7 +6,7 @@ class Product{
   final String description;
   final double price;
   final String imgUrl;
-  final int categoryId;
+  //final int categoryId;
 
   Product({
     required this.name,
@@ -14,10 +14,10 @@ class Product{
     required this.description,
     required this.price,
     required this.imgUrl,
-    required this.categoryId
+    //required this.categoryId
   });
   factory Product.fromJson(Map<String, dynamic>json){
-    return Product(name: json["name"], id: json["id"], description: json["description"], price: json["price"], imgUrl: json["imageUrl"], categoryId: json["categoryId"]);
+    return Product(name: json["name"], id: json["id"], description: json["description"], price: json["price"], imgUrl: json["imageUrl"]);
   }
   static List<Product> productsFromJson(dynamic json ){
     var searchResult = json; //kalau ada ["Search"] kena letak, kalau takde, delete je, tengok api

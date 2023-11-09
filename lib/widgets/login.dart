@@ -37,22 +37,26 @@ class LoginPage extends StatelessWidget {
                     login(userEmail.text, userPassword.text).then((value)async{
                       print(value.body);
                       print(value.statusCode);
-                      if(value.statusCode == 200){
-                        //save token
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                        prefs.setString("token", jsonDecode(value.body)["token"]);
-                        //redirect to homepage
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-                      }else{
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                       if(value.statusCode == 200){
+                         //save token
+                         SharedPreferences prefs = await SharedPreferences.getInstance();
+                         prefs.setString("token", jsonDecode(value.body)["token"]);
+                         //redirect to homepage
+                         Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                       }else{
 
-                      }
+                       }
                     });
                   }, child: Text("Login")),
               SizedBox(height: 8),
               TextButton(
                   onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
-                  }, child: Text("No account? Register now"))
+                  }, child: Text("No account? Register now")),
+              TextButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+              }, child: Text("Test"))
             ],
           ),
         ),

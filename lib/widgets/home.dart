@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:final_project_user_app/widgets/details.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +14,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List <Product>  productList = [
+    // {
+    //   "name": "Nama hotel",
+    //   "address": "Address",
+    // },
+    // {
+    //   "name": "Nama hotel",
+    //   "address": "Address",
+    // },
+    // {
+    //   "name": "Nama hotel",
+    //   "address": "Address",
+    // }
+  ];
   @override
   void initState() {
     // TODO: implement initState
@@ -21,16 +36,41 @@ class _HomePageState extends State<HomePage> {
   }
   void loadData(){
     fetchProducts().then((value){
-      print(value.length);
-      print(value[0].name);
-      print(value[1].name);
+     setState(() {
+       productList = value;
+     });
     });
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("HomePage"),),
-      body: Text("Homepage"),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(8),
+        itemCount: productList.length,
+        itemBuilder: (BuildContext context, int index) {
+          // return Container(
+          //   height: 50,
+          //   color: Colors.amber,
+          //   child: Center(child: Text(hotelList[index]["name"]!)),
+          // );
+          return Card(
+            child: ListTile(
+              leading: Image.network('https://pix8.agoda.net/hotelImages/124/1246280/1246280_16061017110043391702.jpg?ca=6&ce=1&s=1024x768'),
+              title: Text(productList[index].name),
+              subtitle: Text("RM${productList[index].price}"),
+              trailing: Icon(Icons.chevron_right),
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DetailsPage(productId: productList[index].id)
+                ),);
+              }
+            ),
+          );
+        },
+      ),
     );
   }
   Future<List<Product>> fetchProducts() async {
